@@ -82,13 +82,60 @@ listStudent findStudent(listStudent students, char findString[]) {
 	return matchingStudents;
 }
 
+#include <stdio.h>
+#include <string.h>
+
+int lcs(char *s1, char *s2) {
+    int m = strlen(s1);
+    int n = strlen(s2);
+    int lcs[m + 1][n + 1];
+    int max_len = 0;
+    int end_pos = 0;
+
+    memset(lcs, 0, sizeof(lcs));
+
+    for (int i = 1; i <= m; i++) {
+        for (int j = 1; j <= n; j++) {
+            if (s1[i - 1] == s2[j - 1]) {
+                lcs[i][j] = lcs[i - 1][j - 1] + 1;
+                if (lcs[i][j] > max_len) {
+                    max_len = lcs[i][j];
+                    end_pos = i;
+                }
+            } else {
+                lcs[i][j] = 0;
+            }
+        }
+    }
+
+    char *result = malloc(sizeof(char) * (max_len + 1));
+    strncpy(result, s1 + end_pos - max_len, max_len);
+	result[max_len] = '\0';
+	
+    return strlen(result);
+}
+
+listStudent findStudent2(listStudent students, char findString[]) {
+	//temp list student
+	listStudent matchingStudents;
+	matchingStudents.head = NULL;	
+	
+	for(nodeStudent *k = students.head; k != NULL; k = k->next) {
+		
+		if(lcs(findString, k->data.name) == strlen(findString)) {
+			pushBack(&matchingStudents, k->data);
+		}
+	}
+	return matchingStudents;
+}
+
 listStudent findScopeScore(listStudent students, int option) {  //0 good, 1 normal, remaining
 	//temp list student
 	listStudent goodStudents, normalStudents, remaining;
 	goodStudents.head = NULL;
 	normalStudents.head = NULL;
 	remaining.head = NULL;
-	
+
 	for(nodeStudent *k = students.head; k != NULL; k = k->next) {
 		if(k->data.gpa >= 3.6)
 			pushBack(&goodStudents, k->data);

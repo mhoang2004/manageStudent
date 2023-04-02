@@ -36,6 +36,21 @@ int dayOfMonth(int m, int y) {
   	}
 }
 
+void checkEmpty(char string[]) {
+	do {
+		scanf("%[^\n]s", string);
+		getchar();
+		//fgets(b.name, MAX, stdin);
+		if(strlen(string) == 0) {
+			
+			SetColor(4);
+			printf("\t(!) Chuoi rong!!\n");
+			SetColor(7);
+			printf("\t(?) Xin nhap lai: ");
+		}
+	} while(strlen(string) == 0);
+}
+
 void printDate(char date[]) { //1 nhap; 0 print
 	//printf("%s", date);
 	char *day = strtok(date, "/"); 
@@ -72,13 +87,15 @@ void checkName(char name[]) {
 void checkStudentCode(listStudent students, char studentCode[]) {	
 	while(1) {
 		int flag = 1;
-		scanf("%s", studentCode);
+		checkEmpty(studentCode);
+		
 		for(nodeStudent *k = students.head; k != NULL; k = k->next) {
 			if(strcmp(studentCode, k->data.studentCode) == 0) flag = 0;	
 		}
 		if(flag) 
 			break;
 		else
+			SetColor(4);
 			printf("\t(!) Da co MSSV nay, xin nhap lai: ");
 	}
 }
@@ -91,8 +108,10 @@ void checkInputInt(int *x) {
             exit(1);
         }
         if (sscanf(input, "%d", x) == 1) break;
-
+		
+		SetColor(4);
         printf("\t(!) Khong nhap chuoi!!\n");
+        SetColor(7);
         printf("\t(?) Nhap lai: ");
     }
 }
@@ -101,17 +120,22 @@ void checkInputScore(float *x) {
     char input[100];
     while (1) {	
         if (fgets(input, sizeof(input), stdin) == NULL) {
+        	SetColor(4);
             printf("Error reading input\n");
             exit(1);
         }
         if (sscanf(input, "%f", x) == 1) {
         	if(*x > 4 || *x < 0) {
+        		SetColor(4);
 				printf("\t(!) Diem chi thuoc [0; 4]!\n");
+				SetColor(7);
 				printf("\t(?) Xin nhap lai: ");
 			} else break;
         } else {
+        	SetColor(4);
         	printf("\t(!) Khong nhap chuoi!!\n");
-        	printf("\t(?) Xin nhap lai: ");
+        	SetColor(7);
+			printf("\t(?) Xin nhap lai: ");
 		} 
     }
 }

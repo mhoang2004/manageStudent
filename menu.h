@@ -178,16 +178,15 @@ void menu1(int selected, listStudent *students) {
 			
 			printf("\t====================\n");
 			printf("\t(?) Nhap ten: ");
-			scanf("%[^\n]s", b.name);
-			printf("\t====================\n");
+			checkEmpty(b.name);
 			
+			printf("\t====================\n");
 			printf("\t(?) Nhap MSSV: ");
 			checkStudentCode(*students, b.studentCode);
-			getchar(); //consume the newline character
 			printf("\t====================\n");
 			
 			printf("\t(?) Nhap nganh: ");
-			scanf("%[^\n]s", b.major);
+			checkEmpty(b.major);
 			printf("\t====================\n\n");
 			
 			printf("\t(!) Nhap dung dinh dang! VD: 1/1/2004\n\n");
@@ -197,7 +196,7 @@ void menu1(int selected, listStudent *students) {
 			int intDay, intMonth, intYear;
 			do {
 				isError = 0;
-				scanf("%s", b.date);
+				checkEmpty(b.date);
 				
 				char temp[14];
 				strcpy(temp, b.date);
@@ -213,7 +212,7 @@ void menu1(int selected, listStudent *students) {
 				if(!intDay || !intMonth || !intYear) 
 					isError = 1;
 				
-				if(intDay <= 0|| intMonth <= 0 || intYear <= 1023)
+				if(intDay <= 0|| intMonth <= 0 || intYear <= 1923)
 					isError = 1;
 				if(intMonth > DEC) {
 					isError = 1;
@@ -223,12 +222,15 @@ void menu1(int selected, listStudent *students) {
 					if(intYear > 2023) 
 						isError = 1;
 				}	
-				if(isError)
-					printf("\n\t(!) Nhap sai! Xin nhap lai: ");
+				if(isError) {
+					SetColor(4);
+					printf("\n\t(!) Nhap sai!\n");
+					SetColor(7);
+					printf("\t(?) Xin nhap lai: ");
+				}
+					
 			} while(isError);
 			printf("\n\t====================\n");
-			
-			getchar();
 			
 			printf("\t(?) Nhap diem mon 1: ");
 			checkInputScore(&b.scoreList.subject1);
@@ -266,6 +268,7 @@ void menu1(int selected, listStudent *students) {
 		    checkInputInt(&eraseID);
 			
 			if(eraseID > sizeNode(*students) || eraseID <= 0) {
+				SetColor(4);
 				printf("\n\t(!) Khong co sinh vien can xoa!!!");
 				
 				getchar(); //consume enter
@@ -309,6 +312,7 @@ void menu1(int selected, listStudent *students) {
 		    scanf("%d", &editID);
 			
 			if(editID > sizeNode(*students) || editID <= 0) {
+				SetColor(4);
 				printf("\n\t(!) Khong co sinh vien de sua!!!");
 				
 				getchar(); //consume enter
@@ -444,12 +448,16 @@ void menu2(int selected, listStudent *students) {
 			} else {
 				//string
 				listStudent result; 
-				result = findStudent(*students, findString);
+				result = findStudent2(*students, findString);
 				
-				int yPosition = 3;
-				int tableHeight = sizeNode(result) + 3;
-				drawTable(xPosition, yPosition, tableWidth, tableHeight, menuShowTitle);
-				printNode(result, 6);
+				if(result.head == NULL) {
+					printf("\n\t(!) Khong co sinh vien can tim!!!\n");
+				} else {
+					int yPosition = 3;
+					int tableHeight = sizeNode(result) + 3;
+					drawTable(xPosition, yPosition, tableWidth, tableHeight, menuShowTitle);
+					printNode(result, 6);
+				}
 			} 
 
 			getch();
@@ -574,6 +582,7 @@ void menu3(int selected, listStudent *students) {
 		    scanf("%d", &editID);
 			
 			if(editID > sizeNode(*students) || editID <= 0) {
+				SetColor(4);
 				printf("\n\t(!) Khong co sinh vien de sua!!!");
 				
 				getchar(); //consume enter
@@ -663,7 +672,7 @@ void menu(int selected) {
 		}
 		case 1: {
 			char advanceFunc[5][MAX] = {"Tim kiem", "Sap xep", 
-			"Thong ke", "Loc (filter)", "Quay lai"};
+			"Thong ke", "Loc diem", "Quay lai"};
 			int selected3 = handleLogic(5, x, y, 40, advanceFunc);
 			menu2(selected3, &students);
 			break;
