@@ -125,7 +125,7 @@ void checkInputScore(float *x) {
             exit(1);
         }
         if (sscanf(input, "%f", x) == 1) {
-        	if(*x > 4 || *x < 0) {
+        	if(*x > 4 || *x < 0) {	
         		SetColor(4);
 				printf("\t(!) Diem chi thuoc [0; 4]!\n");
 				SetColor(7);

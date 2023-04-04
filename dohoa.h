@@ -35,6 +35,13 @@ void ShowCur(bool CursorVisibility) {
 	SetConsoleCursorInfo(handle, &cursor);
 }
 
+int whereX() {
+	CONSOLE_SCREEN_BUFFER_INFO csbi;
+	if (GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi))
+		return csbi.dwCursorPosition.X;
+	return -1;
+}
+
 void textcolor(int x)  { //thay doi mau nen
 	HANDLE mau;
 	mau = GetStdHandle(STD_OUTPUT_HANDLE);

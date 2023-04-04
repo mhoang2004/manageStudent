@@ -7,6 +7,12 @@
 
 int x = 64, y = 5;
 
+int xPosition = -7; //where is x when draw table
+int yPosition = 1; //where is y when draw table
+int tableWidth = 100; //14*5 + 30
+char menuShowTitle[][MAX] = {"STT", "MSSV", "Ten",
+"Lop", "Ngay sinh", "Diem TB"};
+
 void instruction() {
 	textcolor(7);
 	gotoXY(58, 20);
@@ -32,6 +38,35 @@ void active(int x, int y, int w, int h, int bg_color, char content[]) {
   	gotoXY(x + 1, y + 1); printf("%s", content); //write content
 
 	textcolor(2);
+}
+
+void onlyBox(int x, int y, int w, int h) {
+	textcolor(2);
+	SetColor(7);
+	
+	if(h <= 1 || w <= 1) return; //can't handle too small box
+	
+	for(int ix = x; ix <= x + w; ix++) {
+		gotoXY(ix, y);
+		printf("%c", 196); //char(196) is ascii
+		gotoXY(ix, y + h);
+		printf("%c",196);
+	}
+	
+	for(int iy = y; iy <= y + h; iy++) {
+		gotoXY(x, iy);
+		printf("%c", 179);
+		gotoXY(x + w, iy);
+		printf("%c", 179);
+	}
+	
+	//border-radius 4 corner;
+	gotoXY(x, y); printf("%c", 218);
+	gotoXY(x + w, y); printf("%c", 191);
+	gotoXY(x + w, y + h); printf("%c", 217);
+	gotoXY(x, y + h); printf("%c", 192);
+	
+	gotoXY(x+2, y+1);
 }
 
 void box(int x, int y, int w, int h, int bg_color, char content[]) {
@@ -149,15 +184,6 @@ int handleLogic(int n, int x, int y, int w, char content[][MAX]) {
 
 //sub menu
 void menu1(int selected, listStudent *students) {
-	//load file
-	loadData(students); //load students
-	
-	int xPosition = -7; //where is x when draw table
-	int yPosition = 1; //where is y when draw table
-	int tableWidth = 100; //14*5 + 30
-	char menuShowTitle[][MAX] = {"STT", "MSSV", "Ten",
-	"Lop", "Ngay sinh", "Diem TB"};
-	
 	switch(selected) {
 		textcolor(7);
 		case 0: { //print
@@ -415,16 +441,7 @@ void menu1(int selected, listStudent *students) {
 	}
 }
 
-void menu2(int selected, listStudent *students) {
-	//load file
-	loadData(students); //load students
-	
-	int xPosition = -7; //where is x when draw table
-	int yPosition = 1; //where is y when draw table
-	int tableWidth = 100; //14*5 + 30
-	char menuShowTitle[][MAX] = {"STT", "MSSV", "Ten",
-	"Lop", "Ngay sinh", "Diem TB"};
-	
+void menu2(int selected, listStudent *students) {	
 	switch(selected) {
 		case 0: { //find
 			textcolor(7);
@@ -554,16 +571,7 @@ void menu2(int selected, listStudent *students) {
 	}
 }
 
-void menu3(int selected, listStudent *students) {
-	//load file
-	loadData(students); //load students
-	
-	int xPosition = -7; //where is x when draw table
-	int yPosition = 1; //where is y when draw table
-	int tableWidth = 100; //14*5 + 30
-	char menuShowTitle[][MAX] = {"STT", "MSSV", "Ten",
-	"Diem mon 1", "Diem mon 2", "Diem mon 3"};
-	
+void menu3(int selected, listStudent *students) {	
 	switch(selected) {
 		case 0: {
 			int tableHeight = sizeNode(*students) + 3;
@@ -598,7 +606,7 @@ void menu3(int selected, listStudent *students) {
 			
 			//each student have 1 height
 			int tableHeight = 4; //3 more space at the bottom
-			yPosition = 3;
+			int yPosition = 3;
 			drawTable(xPosition, yPosition, tableWidth, tableHeight, menuShowTitle);
 			printNodeScore(*students, editID);
 			
@@ -649,11 +657,144 @@ void menu3(int selected, listStudent *students) {
 	}
 }
 
+void menuStudent(int selected, listStudent *students) {
+	switch(selected) {
+		case 0: { //print
+			int tableHeight = sizeNode(*students) + 3; //3 more space at the bottom
+			
+			drawTable(xPosition, yPosition, tableWidth, tableHeight, menuShowTitle);
+			printNode(*students, 4);
+			
+			getchar();
+			system("cls");
+			break;
+		}
+		case 1: {
+			int tableHeight = sizeNode(*students) + 3;
+			drawTable(xPosition, yPosition, tableWidth, tableHeight, menuShowTitle);
+			printScore(*students, 4);
+			
+			getchar();
+			system("cls");
+			break;
+		}
+		case 2: {
+			system("cls");
+			main();
+			break;
+		}
+		case 3: {
+			exit(0);
+		}
+	}
+}
+
+void menuTeacher(int selected, listStudent *students) {
+	switch(selected) {
+		case 0: { //print
+			int tableHeight = sizeNode(*students) + 3; //3 more space at the bottom
+			
+			drawTable(xPosition, yPosition, tableWidth, tableHeight, menuShowTitle);
+			printNode(*students, 4);
+			
+			getchar();
+			system("cls");
+			break;
+		}
+		case 1: {
+			int tableHeight = sizeNode(*students) + 3;
+			drawTable(xPosition, yPosition, tableWidth, tableHeight, menuShowTitle);
+			printScore(*students, 4);
+			
+			getchar();
+			system("cls");
+			break;
+		}
+		case 2: {
+			textcolor(7);
+
+		    int editID = 0;
+		    printf("\n\n\t(?) Nhap id muon sua diem: ");
+		    scanf("%d", &editID);
+			
+			if(editID > sizeNode(*students) || editID <= 0) {
+				SetColor(4);
+				printf("\n\t(!) Khong co sinh vien de sua!!!");
+				
+				getchar(); //consume enter
+				getchar(); //stop programme to see result
+				system("cls");
+				break;
+			}
+			
+			nodeStudent *temp = students->head;
+			while(temp->data.id != editID) {
+				temp = temp->next;
+			}
+			
+			//each student have 1 height
+			int tableHeight = 4; //3 more space at the bottom
+			int yPosition = 3;
+			drawTable(xPosition, yPosition, tableWidth, tableHeight, menuShowTitle);
+			printNodeScore(*students, editID);
+			
+			getchar();
+			
+			//edit here
+			printf("\n\n\t(!) Dang sua diem sinh vien co id %d... \n", editID);
+			printf("\t(!) Nhan Enter de bo qua truong khong can sua!\n\n");
+			
+			char c[MAX]; //check if press enter
+			
+			printf("\n\t===========================\n");
+			printf("\t(?) Nhap lai diem mon 1: ");
+			fgets(c, sizeof(c), stdin);
+			if(c[0] != '\n') {
+			    temp->data.scoreList.subject1 = atof(c);
+			}
+			
+			printf("\n\t===========================\n");
+			printf("\t(?) Nhap lai diem mon 2: ");
+			fgets(c, sizeof(c), stdin);
+			if(c[0] != '\n') {
+			    temp->data.scoreList.subject2 = atof(c);
+			}
+			
+			printf("\n\t===========================\n");
+			printf("\t(?) Nhap lai diem mon 3: ");
+			
+			fgets(c, sizeof(c), stdin);
+			if(c[0] != '\n') {
+			    temp->data.scoreList.subject3 = atof(c);
+			}
+			
+			temp->data.gpa = (temp->data.scoreList.subject1 + temp->data.scoreList.subject2
+			+ temp->data.scoreList.subject3) / 3;
+			
+			writeData(students);
+			printNodeScore(*students, editID);
+		
+			SetColor(2);
+			gotoXY(0, 20);
+			printf("\n\n\t(!) SUCESSFULLY!!!");
+			
+			getchar();
+			system("cls");
+			break;
+		}
+		case 3: {
+			system("cls");
+			main();
+			break;
+		}
+	}
+}
+
 //main menu
-void menu(int selected) {
-	
+void menu(int selected, int user) {
 	listStudent students;
 	students.head = NULL;
+	loadData(&students);
 	
 	textcolor(7);
 	gotoXY(x + 9, y - 3); //title
@@ -661,32 +802,39 @@ void menu(int selected) {
 	
 	//how to control
 	instruction();
-	
-	switch(selected) {
-		case 0: {
-			char basicFunc[5][MAX] = {"Xem", "Them", "Xoa", 
-			"Sua", "Quay lai"};
-			int selected2 = handleLogic(5, x, y, 40, basicFunc);
-			menu1(selected2, &students);
-			break;
-		}
-		case 1: {
-			char advanceFunc[5][MAX] = {"Tim kiem", "Sap xep", 
-			"Thong ke", "Loc diem", "Quay lai"};
-			int selected3 = handleLogic(5, x, y, 40, advanceFunc);
-			menu2(selected3, &students);
-			break;
-		}
-		case 2: {
-			char scoreManip[3][MAX] = {"Xem diem", "Sua diem", "Quay lai"};
-			int selected4 = handleLogic(3, x, y, 40, scoreManip);
-			menu3(selected4, &students);
-			break;
-		}
-		case 3: {
-			system("cls");
-			exit(0);
-			break;
+	if(user == 2) {
+		system("cls");
+		menuStudent(selected, &students);
+	} else if(user == 1) {
+		system("cls");
+		menuTeacher(selected, &students);
+	} else if(user == 0) {
+		switch(selected) {
+			case 0: {
+				char basicFunc[5][MAX] = {"Hien thi sinh vien", "Them sinh vien", 
+				"Xoa sinh vien", "Sua sinh vien", "Quay lai"};
+				int selected2 = handleLogic(5, x, y, 40, basicFunc);
+				menu1(selected2, &students);
+				break;
+			}
+			case 1: {
+				char advanceFunc[5][MAX] = {"Tim kiem", "Sap xep", 
+				"Thong ke", "Loc diem", "Quay lai"};
+				int selected3 = handleLogic(5, x, y, 40, advanceFunc);
+				menu2(selected3, &students);
+				break;
+			}
+			case 2: {
+				char scoreManip[3][MAX] = {"Xem diem", "Sua diem", "Quay lai"};
+				int selected4 = handleLogic(3, x, y, 40, scoreManip);
+				menu3(selected4, &students);
+				break;
+			}
+			case 3: {
+				system("cls");
+				exit(0);
+				break;
+			}
 		}
 	}
 }

@@ -1,3 +1,8 @@
+typedef struct accounts {
+	char username[30];
+	char password[30];
+} acc;
+
 typedef struct scores {
 	float subject1;
 	float subject2;
