@@ -680,7 +680,13 @@ void menuStudent(int selected, listStudent *students) {
 		}
 		case 2: {
 			system("cls");
-			main();
+			gotoXY(60, 10);
+			printf("(?) Ban co that su muon dang xuat?\n");
+			
+			char confirmTitle[][MAX] = {"YES", "NO"};
+			int selected = handleLogic(2, 70, 12, 10, confirmTitle);
+			if(selected == 0) main();
+
 			break;
 		}
 		case 3: {
@@ -784,7 +790,12 @@ void menuTeacher(int selected, listStudent *students) {
 		}
 		case 3: {
 			system("cls");
-			main();
+			gotoXY(60, 10);
+			printf("(?) Ban co that su muon dang xuat?\n");
+			
+			char confirmTitle[][MAX] = {"YES", "NO"};
+			int selected = handleLogic(2, 70, 12, 10, confirmTitle);
+			if(selected == 0) main();
 			break;
 		}
 	}
