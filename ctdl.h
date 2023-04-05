@@ -120,8 +120,17 @@ listStudent findStudent2(listStudent students, char findString[]) {
 	matchingStudents.head = NULL;	
 	
 	for(nodeStudent *k = students.head; k != NULL; k = k->next) {
+		char temp[MAX];
+		strcpy(temp, k->data.name);
+		for(int i = 0; temp[i]; i++){
+		  temp[i] = tolower(temp[i]);
+		}
 		
-		if(lcs(findString, k->data.name) == strlen(findString)) {
+		for(int i = 0; findString[i]; i++){
+		  findString[i] = tolower(findString[i]);
+		}
+		
+		if(lcs(findString, temp) == strlen(findString)) {
 			pushBack(&matchingStudents, k->data);
 		}
 	}

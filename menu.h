@@ -3,8 +3,6 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
-#define MAX 100
-
 int x = 64, y = 5;
 
 int xPosition = -7; //where is x when draw table

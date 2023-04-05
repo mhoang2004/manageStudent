@@ -6,7 +6,7 @@
 #include <stdbool.h>
 
 #include <windows.h>
-
+#define MAX 100
 void gotoXY(int x, int y) {
 	HANDLE hConsoleOutput;
 	COORD Cursor_an_Pos = { x, y };
