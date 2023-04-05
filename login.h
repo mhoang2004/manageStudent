@@ -17,19 +17,37 @@ int login() {
 		textcolor(7);
 		printf("===DANG NHAP===");
 
-		char userAccount[30], userPassword[30];
+		char userAccount[MAX], userPassword[MAX];
 		
 		gotoXY(x-8, y);
 		printf("Nhap tai khoan:");
 		onlyBox(x-8, y+1, 40, 2);
 		fgets(userAccount, sizeof(userAccount), stdin);
-		userAccount[strlen(userAccount) - 1] = '\0';
-					
+		userAccount[strlen(userAccount) - 1] = '\0';			
 		gotoXY(x-8, y+5);
 		printf("Nhap mat khau:");
 		onlyBox(x-8, y+6, 40, 2);
-		fgets(userPassword, sizeof(userPassword), stdin);
-		userPassword[strlen(userPassword) - 1] = '\0';
+		int inputKeyBoard = 0, i = 0, n = x-6;
+		while(inputKeyBoard != 13) {
+			inputKeyBoard = getch();
+			if(inputKeyBoard == 8) {
+				if(i > 0) 
+					i--;
+				userPassword[i] = '\0';
+				if(n > x - 6)
+					n--;
+	
+				//clear old data
+				gotoXY(n, y+7);
+				printf(" ");
+				gotoXY(n, y+7);
+			} else 
+				n++;
+			if(inputKeyBoard != 13 && inputKeyBoard != 8){
+				userPassword[i++] = (char)inputKeyBoard;
+				printf("*");
+			}
+		}
 		
 		for(int i = 0; i < 3; i++) {
 			if(!strcmp(userAccount, users[i].username) &&
@@ -58,6 +76,8 @@ int login() {
 	
 	return user;
 }
+
+
 
 
 
