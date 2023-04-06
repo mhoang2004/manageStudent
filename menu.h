@@ -254,6 +254,7 @@ void menu1(int selected, listStudent *students) {
 				}
 					
 			} while(isError);
+			printf("\n%s", b.date);
 			printf("\n\t====================\n");
 			
 			printf("\t(?) Nhap diem mon 1: ");
@@ -308,7 +309,7 @@ void menu1(int selected, listStudent *students) {
 			
 			//each student have 2 height
 			int tableHeight = 4; //3 more space at the bottom
-			yPosition = 3;
+			int yPosition = 3;
 			drawTable(xPosition, yPosition, tableWidth, tableHeight, menuShowTitle);
 			printOneNode(*students, eraseID);
 			
@@ -330,7 +331,9 @@ void menu1(int selected, listStudent *students) {
 		}
 		case 3: { //edit
 			textcolor(7);
+			
 			printf("Sua sinh vien: \n\n");
+			
 		    int editID = 0;
 		    printf("\t(?) Nhap id muon sua: ");
 		    scanf("%d", &editID);
@@ -352,7 +355,7 @@ void menu1(int selected, listStudent *students) {
 			
 			//each student have 1 height
 			int tableHeight = 4; //3 more space at the bottom
-			yPosition = 3;
+			int yPosition = 3;
 			drawTable(xPosition, yPosition, tableWidth, tableHeight, menuShowTitle);
 			printOneNode(*students, editID);
 			
@@ -572,6 +575,8 @@ void menu2(int selected, listStudent *students) {
 void menu3(int selected, listStudent *students) {	
 	switch(selected) {
 		case 0: {
+			char menuShowTitle[][MAX] = {"STT", "MSSV", "Ten",
+			"Diem mon 1", "Diem mon 2", "Diem mon 3"};
 			int tableHeight = sizeNode(*students) + 3;
 			drawTable(xPosition, yPosition, tableWidth, tableHeight, menuShowTitle);
 			printScore(*students, 4);
@@ -582,7 +587,8 @@ void menu3(int selected, listStudent *students) {
 		}
 		case 1: {
 			textcolor(7);
-
+			char menuShowTitle[][MAX] = {"STT", "MSSV", "Ten",
+			"Diem mon 1", "Diem mon 2", "Diem mon 3"};
 		    int editID = 0;
 		    printf("\n\n\t(?) Nhap id muon sua diem: ");
 		    scanf("%d", &editID);
@@ -668,6 +674,8 @@ void menuStudent(int selected, listStudent *students) {
 			break;
 		}
 		case 1: {
+			char menuShowTitle[][MAX] = {"STT", "MSSV", "Ten",
+			"Diem mon 1", "Diem mon 2", "Diem mon 3"};
 			int tableHeight = sizeNode(*students) + 3;
 			drawTable(xPosition, yPosition, tableWidth, tableHeight, menuShowTitle);
 			printScore(*students, 4);
@@ -684,7 +692,6 @@ void menuStudent(int selected, listStudent *students) {
 			char confirmTitle[][MAX] = {"YES", "NO"};
 			int selected = handleLogic(2, 70, 12, 10, confirmTitle);
 			if(selected == 0) main();
-
 			break;
 		}
 		case 3: {
@@ -706,6 +713,8 @@ void menuTeacher(int selected, listStudent *students) {
 			break;
 		}
 		case 1: {
+			char menuShowTitle[][MAX] = {"STT", "MSSV", "Ten",
+			"Diem mon 1", "Diem mon 2", "Diem mon 3"};
 			int tableHeight = sizeNode(*students) + 3;
 			drawTable(xPosition, yPosition, tableWidth, tableHeight, menuShowTitle);
 			printScore(*students, 4);
@@ -716,7 +725,8 @@ void menuTeacher(int selected, listStudent *students) {
 		}
 		case 2: {
 			textcolor(7);
-
+			char menuShowTitle[][MAX] = {"STT", "MSSV", "Ten",
+			"Diem mon 1", "Diem mon 2", "Diem mon 3"};
 		    int editID = 0;
 		    printf("\n\n\t(?) Nhap id muon sua diem: ");
 		    scanf("%d", &editID);

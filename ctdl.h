@@ -85,13 +85,12 @@ listStudent findStudent(listStudent students, char findString[]) {
 #include <string.h>
 
 int lcs(char *s1, char *s2) {
-    int m = strlen(s1);
-    int n = strlen(s2);
+    int m = strlen(s1), n = strlen(s2);
     int lcs[m + 1][n + 1];
     int max_len = 0;
     int end_pos = 0;
 
-    memset(lcs, 0, sizeof(lcs));
+    memset(lcs, 0, sizeof(lcs)); //set all default value
 
     for (int i = 1; i <= m; i++) {
         for (int j = 1; j <= n; j++) {

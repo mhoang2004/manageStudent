@@ -51,9 +51,54 @@ void checkEmpty(char string[]) {
 	} while(strlen(string) == 0);
 }
 
+void checkDate(char date[]) {
+	int isError;
+	char *day, *month, *year;
+	int intDay, intMonth, intYear;
+	do {
+		isError = 0;
+		checkEmpty(date);
+		
+		char temp[14];
+		strcpy(temp, date);
+		
+		day = strtok(temp, "/"); 
+		month = strtok(NULL, "/");
+		year = strtok(NULL, "/");
+	
+		intDay = atoi(day);
+		intMonth = atoi(month);
+		intYear = atoi(year);
+		
+		if(!intDay || !intMonth || !intYear) 
+			isError = 1;
+		
+		if(intDay <= 0|| intMonth <= 0 || intYear <= 1923)
+			isError = 1;
+		if(intMonth > DEC) {
+			isError = 1;
+		} else {
+			if(intDay > dayOfMonth(intMonth, intYear)) 
+				isError = 1;
+			if(intYear > 2023) 
+				isError = 1;
+		}	
+		if(isError) {
+			SetColor(4);
+			printf("\n\t(!) Nhap sai!\n");
+			SetColor(7);
+			printf("\t(?) Xin nhap lai: ");
+		}
+			
+	} while(isError);
+}
+
 void printDate(char date[]) { //1 nhap; 0 print
-	//printf("%s", date);
-	char *day = strtok(date, "/"); 
+	
+	char temp[14];
+	strcpy(temp, date);
+
+	char *day = strtok(temp, "/"); 
 	char *month = strtok(NULL, "/");
 	char *year = strtok(NULL, "/");
 
