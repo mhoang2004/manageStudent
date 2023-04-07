@@ -1,6 +1,4 @@
-1, 1231123, Le Minh Hoang, it, 1/2/2000, 4.00
-2, 2132414, Hoa Da, Y, 1/1/2000, 4.00
-3, 12312313, Dong Ta, CNTT, 1/1/2003, 2.33
-4, 11111111, Nguyen Ngoc Anh, TDHDK, 1/1/2004, 3.00
-5, 44444, cde, cntt, 1, 2.00
-6, 3333, abc, cntt, 1/2/2000, 2.00
+1, 1231123, Le Minh Hoang, CNTT, 7/8/2004, 4.00
+2, 6351071000, Nguyen Duc Khoa, CNTT, 2/2/2004, 2.67
+3, 6351071055, Pham Thi Ngoc Oanh, CNTT, 4/10/2004, 3.33
+4, 22222, On Gia Bao, CNTT, 3/3/2004, 3.00

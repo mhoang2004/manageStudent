@@ -22,7 +22,7 @@ int login() {
 		gotoXY(x-8, y);
 		printf("Nhap tai khoan:");
 		onlyBox(x-8, y+1, 40, 2);
-		fgets(userAccount, sizeof(userAccount), stdin);
+		checkLoginEnter(userAccount);
 		userAccount[strlen(userAccount) - 1] = '\0';			
 		gotoXY(x-8, y+5);
 		printf("Nhap mat khau:");

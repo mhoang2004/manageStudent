@@ -36,6 +36,13 @@ int dayOfMonth(int m, int y) {
   	}
 }
 
+void checkLoginEnter(char string[]){
+	do {
+		gotoXY(58, 7);
+		fgets(string, MAX, stdin);
+	} while(strlen(string) == 1);	
+}
+
 void checkEmpty(char string[]) {
 	do {
 		scanf("%[^\n]s", string);
@@ -49,6 +56,53 @@ void checkEmpty(char string[]) {
 			printf("\t(?) Xin nhap lai: ");
 		}
 	} while(strlen(string) == 0);
+}
+
+void checkEditDate(char a[], char date[]) { //edit function
+	int isError;
+	char *day, *month, *year;
+	int intDay, intMonth, intYear;
+	do {
+		isError = 0;
+		
+		fgets(a, MAX, stdin);
+		
+		if(a[0] == '\n') break;
+		a[strlen(a)-1] = '\0';
+		
+		char temp[14];
+		strcpy(temp, a);
+		
+		day = strtok(temp, "/"); 
+		month = strtok(NULL, "/");
+		year = strtok(NULL, "/");
+	
+		intDay = atoi(day);
+		intMonth = atoi(month);
+		intYear = atoi(year);
+		
+		if(!intDay || !intMonth || !intYear) 
+			isError = 1;
+		
+		if(intDay <= 0|| intMonth <= 0 || intYear <= 1923)
+			isError = 1;
+		if(intMonth > DEC) {
+			isError = 1;
+		} else {
+			if(intDay > dayOfMonth(intMonth, intYear)) 
+				isError = 1;
+			if(intYear > 2023) 
+				isError = 1;
+		}	
+		if(isError) {
+			SetColor(4);
+			printf("\n\t(!) Nhap sai!\n");
+			SetColor(7);
+			printf("\t(?) Xin nhap lai: ");
+		} else
+			strcpy(date, a);
+			
+	} while(isError);
 }
 
 void checkDate(char date[]) {
@@ -129,9 +183,37 @@ void checkName(char name[]) {
 		printf("%s ", name);
 }
 
+void checkEditStudentCode(listStudent students, char c[], char studentCode[]) {
+	int flag;
+	do {
+		flag = 1;
+		fgets(c, MAX, stdin);
+		if(c[0] == '\n') break;
+		c[strlen(c)-1] = '\0';
+		
+		char temp[14];
+		strcpy(temp, c);
+		
+		for(nodeStudent *k = students.head; k != NULL; k = k->next) {
+			if(strcmp(c, k->data.studentCode) == 0) flag = 0;	
+		}
+		if(flag) {
+			strcpy(studentCode, c);
+			break;
+		} else {
+			SetColor(4);
+			printf("\t(!) Da co MSSV nay!\n");
+			
+			SetColor(7);
+			printf("\t(?) Xin nhap lai: ");
+		}	
+	} while(!flag);
+}
+
 void checkStudentCode(listStudent students, char studentCode[]) {	
-	while(1) {
-		int flag = 1;
+	int flag;
+	do {
+		flag = 1;
 		checkEmpty(studentCode);
 		
 		for(nodeStudent *k = students.head; k != NULL; k = k->next) {
@@ -139,10 +221,14 @@ void checkStudentCode(listStudent students, char studentCode[]) {
 		}
 		if(flag) 
 			break;
-		else
+		else {
 			SetColor(4);
-			printf("\t(!) Da co MSSV nay, xin nhap lai: ");
-	}
+			printf("\t(!) Da co MSSV nay!\n");
+			
+			SetColor(7);
+			printf("\t(?) Xin nhap lai: ");
+		}	
+	} while(!flag);
 }
 
 void checkInputInt(int *x) {
@@ -176,6 +262,34 @@ void checkInputScore(float *x) {
 				SetColor(7);
 				printf("\t(?) Xin nhap lai: ");
 			} else break;
+        } else {
+        	SetColor(4);
+        	printf("\t(!) Khong nhap chuoi!!\n");
+        	SetColor(7);
+			printf("\t(?) Xin nhap lai: ");
+		} 
+    }
+}
+
+void checkScore(char a[], float *x) { //edit input
+    while (1) {	
+        if(fgets(a, sizeof(a), stdin) == NULL) {
+        	SetColor(4);
+            printf("Error reading input\n");
+            exit(1);
+        }
+        if(a[0] == '\n') break;
+        float temp;
+        if (sscanf(a, "%f", &temp) == 1) {
+        	if(temp > 4 || temp < 0) {	
+        		SetColor(4);
+				printf("\t(!) Diem chi thuoc [0; 4]!\n");
+				SetColor(7);
+				printf("\t(?) Xin nhap lai: ");
+			} else {
+				*x = temp;
+				break;
+			}
         } else {
         	SetColor(4);
         	printf("\t(!) Khong nhap chuoi!!\n");

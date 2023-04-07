@@ -254,7 +254,6 @@ void menu1(int selected, listStudent *students) {
 				}
 					
 			} while(isError);
-			printf("\n%s", b.date);
 			printf("\n\t====================\n");
 			
 			printf("\t(?) Nhap diem mon 1: ");
@@ -277,7 +276,7 @@ void menu1(int selected, listStudent *students) {
 			writeData(students);
 			
 			SetColor(2);
-			printf("\n\ns\t(!) SUCESSFULLY!!!");
+			printf("\n\n\t(!) SUCESSFULLY!!!");
 			
 			getchar();
 			system("cls");
@@ -334,7 +333,7 @@ void menu1(int selected, listStudent *students) {
 			
 			printf("Sua sinh vien: \n\n");
 			
-		    int editID = 0;
+		    int editID = 0, isTrue = 1;
 		    printf("\t(?) Nhap id muon sua: ");
 		    scanf("%d", &editID);
 			
@@ -378,11 +377,8 @@ void menu1(int selected, listStudent *students) {
 			printf("\t====================\n");
 			
 			printf("\t(?) Nhap lai MSSV: ");
-			fgets(c, sizeof(c), stdin);
-			if(c[0] != '\n') {
-				c[strlen(c) - 1] = '\0';
-			    strcpy(temp->data.studentCode, c);
-			} 
+			checkEditStudentCode(*students, c, temp->data.studentCode);
+			
 			printf("\t====================\n");
 			
 			printf("\t(?) Nhap lai nganh: ");
@@ -395,45 +391,31 @@ void menu1(int selected, listStudent *students) {
 			printf("\t====================\n\n");
 			printf("\t(!) Nhap dung dinh dang! VD: 1/1/2004\n\n");
 			printf("\t(?) Nhap ngay thang nam sinh ngay/thang/nam: ");
-			fgets(c, sizeof(c), stdin);
-			if(c[0] != '\n') {
-				c[strlen(c) - 1] = '\0';
-			    strcpy(temp->data.date, c);
-			}
+			checkEditDate(c, temp->data.date);
 			printf("\n\t====================\n");
 			
 			printf("\t(?) Nhap lai diem mon 1: ");
-			fgets(c, sizeof(c), stdin);
-			if(c[0] != '\n') {
-			    temp->data.scoreList.subject1 = atof(c);
-			}
+			checkScore(c, &temp->data.scoreList.subject1);
+			
 			printf("\t====================\n");
 			
 			printf("\t(?) Nhap lai diem mon 2: ");
-			fgets(c, sizeof(c), stdin);
-			if(c[0] != '\n') {
-			    temp->data.scoreList.subject2 = atof(c);
-			}
+			checkScore(c, &temp->data.scoreList.subject2);
 			printf("\t====================\n");
 			
 			printf("\t(?) Nhap lai diem mon 3: ");
-			
-			fgets(c, sizeof(c), stdin);
-			if(c[0] != '\n') {
-			    temp->data.scoreList.subject3 = atof(c);
-			}
+			checkScore(c, &temp->data.scoreList.subject3);
 			printf("\t====================\n");
 			
 			temp->data.gpa = (temp->data.scoreList.subject1 + temp->data.scoreList.subject2
 			+ temp->data.scoreList.subject3) / 3;
 			
+			SetColor(2);
+			printf("\n\t(!) SUCESSFULLY!!!");
+			SetColor(7);
 			writeData(students);
 			printOneNode(*students, editID);
 		
-			SetColor(2);
-			gotoXY(0, 30);
-			printf("\n\n\t(!) SUCESSFULLY!!!");
-			
 			getchar();
 			
 			system("cls");
@@ -620,29 +602,19 @@ void menu3(int selected, listStudent *students) {
 			printf("\n\n\t(!) Dang sua diem sinh vien co id %d... \n", editID);
 			printf("\t(!) Nhan Enter de bo qua truong khong can sua!\n\n");
 			
-			char c[MAX]; //check if press enter
+			char c[MAX];
 			
 			printf("\n\t===========================\n");
 			printf("\t(?) Nhap lai diem mon 1: ");
-			fgets(c, sizeof(c), stdin);
-			if(c[0] != '\n') {
-			    temp->data.scoreList.subject1 = atof(c);
-			}
+			checkScore(c, &temp->data.scoreList.subject1);
 			
 			printf("\n\t===========================\n");
 			printf("\t(?) Nhap lai diem mon 2: ");
-			fgets(c, sizeof(c), stdin);
-			if(c[0] != '\n') {
-			    temp->data.scoreList.subject2 = atof(c);
-			}
+			checkScore(c, &temp->data.scoreList.subject2);
 			
 			printf("\n\t===========================\n");
 			printf("\t(?) Nhap lai diem mon 3: ");
-			
-			fgets(c, sizeof(c), stdin);
-			if(c[0] != '\n') {
-			    temp->data.scoreList.subject3 = atof(c);
-			}
+			checkScore(c, &temp->data.scoreList.subject3);
 			
 			temp->data.gpa = (temp->data.scoreList.subject1 + temp->data.scoreList.subject2
 			+ temp->data.scoreList.subject3) / 3;
@@ -691,7 +663,7 @@ void menuStudent(int selected, listStudent *students) {
 			
 			char confirmTitle[][MAX] = {"YES", "NO"};
 			int selected = handleLogic(2, 70, 12, 10, confirmTitle);
-			if(selected == 0) main();
+				if(selected == 0) main();
 			break;
 		}
 		case 3: {
@@ -762,25 +734,15 @@ void menuTeacher(int selected, listStudent *students) {
 			
 			printf("\n\t===========================\n");
 			printf("\t(?) Nhap lai diem mon 1: ");
-			fgets(c, sizeof(c), stdin);
-			if(c[0] != '\n') {
-			    temp->data.scoreList.subject1 = atof(c);
-			}
+			checkScore(c, &temp->data.scoreList.subject1);
 			
 			printf("\n\t===========================\n");
 			printf("\t(?) Nhap lai diem mon 2: ");
-			fgets(c, sizeof(c), stdin);
-			if(c[0] != '\n') {
-			    temp->data.scoreList.subject2 = atof(c);
-			}
+			checkScore(c, &temp->data.scoreList.subject2);
 			
 			printf("\n\t===========================\n");
 			printf("\t(?) Nhap lai diem mon 3: ");
-			
-			fgets(c, sizeof(c), stdin);
-			if(c[0] != '\n') {
-			    temp->data.scoreList.subject3 = atof(c);
-			}
+			checkScore(c, &temp->data.scoreList.subject3);
 			
 			temp->data.gpa = (temp->data.scoreList.subject1 + temp->data.scoreList.subject2
 			+ temp->data.scoreList.subject3) / 3;
