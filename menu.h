@@ -619,13 +619,14 @@ void menu3(int selected, listStudent *students) {
 			temp->data.gpa = (temp->data.scoreList.subject1 + temp->data.scoreList.subject2
 			+ temp->data.scoreList.subject3) / 3;
 			
+			SetColor(2);
+			printf("\n\n\t(!) SUCESSFULLY!!!");
+			SetColor(7);
+			
 			writeData(students);
 			printNodeScore(*students, editID);
 		
-			SetColor(2);
-			gotoXY(0, 20);
-			printf("\n\n\t(!) SUCESSFULLY!!!");
-			
+
 			getchar();
 			system("cls");
 			break;
@@ -747,12 +748,12 @@ void menuTeacher(int selected, listStudent *students) {
 			temp->data.gpa = (temp->data.scoreList.subject1 + temp->data.scoreList.subject2
 			+ temp->data.scoreList.subject3) / 3;
 			
+			SetColor(2);
+			printf("\n\n\t(!) SUCESSFULLY!!!");
+			SetColor(7);
+			
 			writeData(students);
 			printNodeScore(*students, editID);
-		
-			SetColor(2);
-			gotoXY(0, 20);
-			printf("\n\n\t(!) SUCESSFULLY!!!");
 			
 			getchar();
 			system("cls");

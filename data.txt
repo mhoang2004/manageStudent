@@ -1,4 +1,4 @@
-1, 1231123, Le Minh Hoang, CNTT, 7/8/2004, 4.00
+1, 1231123, Le Minh Hoang, CNTT, 7/8/2004, 3.33
 2, 6351071000, Nguyen Duc Khoa, CNTT, 2/2/2004, 2.67
 3, 6351071055, Pham Thi Ngoc Oanh, CNTT, 4/10/2004, 3.33
 4, 22222, On Gia Bao, CNTT, 3/3/2004, 3.00
