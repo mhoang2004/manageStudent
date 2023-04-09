@@ -81,14 +81,10 @@ listStudent findStudent(listStudent students, char findString[]) {
 	return matchingStudents;
 }
 
-#include <stdio.h>
-#include <string.h>
-
 int lcs(char *s1, char *s2) {
     int m = strlen(s1), n = strlen(s2);
     int lcs[m + 1][n + 1];
     int max_len = 0;
-    int end_pos = 0;
 
     memset(lcs, 0, sizeof(lcs)); //set all default value
 
@@ -96,21 +92,13 @@ int lcs(char *s1, char *s2) {
         for (int j = 1; j <= n; j++) {
             if (s1[i - 1] == s2[j - 1]) {
                 lcs[i][j] = lcs[i - 1][j - 1] + 1;
-                if (lcs[i][j] > max_len) {
+                if (lcs[i][j] > max_len) 
                     max_len = lcs[i][j];
-                    end_pos = i;
-                }
-            } else {
+            } else 
                 lcs[i][j] = 0;
-            }
         }
     }
-
-    char *result = malloc(sizeof(char) * (max_len + 1));
-    strncpy(result, s1 + end_pos - max_len, max_len);
-	result[max_len] = '\0';
-	
-    return strlen(result);
+    return max_len;
 }
 
 listStudent findStudent2(listStudent students, char findString[]) {
@@ -185,7 +173,6 @@ void printNode(listStudent students, int yPosition) {
 		printf("%.2f ", students.head->data.gpa);
 		
 		yPosition++;
-		//printf("%.2f ", head->data.scoreList.subject1);
 		students.head = students.head->next;	
 	}
 }
@@ -268,7 +255,6 @@ void printScore(listStudent students, int yPosition) {
 		printf("%.2f ", students.head->data.scoreList.subject3);
 		
 		yPosition++;
-		//printf("%.2f ", head->data.scoreList.subject1);
 		students.head = students.head->next;	
 	}
 }
