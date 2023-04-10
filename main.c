@@ -10,6 +10,7 @@
 #include "login.h"
 
 int main() {
+	//textcolor(9);
 	int user = login(); //0 admin; 1 teacher; 2 students
 	
 	//===setting menu=======
@@ -30,7 +31,6 @@ int main() {
 		strcpy(mainMenu[2], "Quan ly diem");
 		strcpy(mainMenu[3], "Thoat");
 	}
-
 	while(1) {		
 		gotoXY(x + 9, y - 3); //title
 		textcolor(7);

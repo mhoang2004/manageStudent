@@ -5,6 +5,25 @@ enum months {
 
 enum months month;
 
+char majors[MAX][MAX] = { "CNTT", "KIENTRUC", "KTVT", "TDHDK", "LOGISTICS" };
+
+void checkMajor(char string[]) {
+	while(1) {
+		scanf("%[^\n]s", string);
+		getchar();
+		int res;	
+		for(int i = 0; i < 5; i++) {
+			res = findMajor(string, majors[i]);
+			if(res) {
+				strcpy(string, majors[i]);
+				return;
+			} 	
+		}
+		printf("\t(!) Khong co nganh dao tao nay!\n");
+		printf("\t(?) Xin nhap lai: ");	
+	}	
+}
+
 int leapYear(int y) {
 	return ((y%4 == 0 && y%100 != 0) || y % 400 == 0);
 }
@@ -298,7 +317,6 @@ void checkScore(char a[], float *x) { //edit input
 		} 
     }
 }
-
 
 
 

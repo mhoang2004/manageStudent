@@ -124,6 +124,23 @@ listStudent findStudent2(listStudent students, char findString[]) {
 	return matchingStudents;
 }
 
+int findMajor(char findString[], char majors[]) {
+		char temp[MAX], temp2[MAX];
+
+		strcpy(temp, majors);
+		strcpy(temp2, findString);
+	
+		for(int i = 0; temp[i]; i++)
+		  temp[i] = tolower(temp[i]);
+		
+		for(int i = 0; temp2[i]; i++) 
+		  temp2[i] = tolower(temp2[i]);
+		
+		if(lcs(temp2, temp) == strlen(temp2)) 
+			return 1;
+		return 0;
+}
+
 listStudent findScopeScore(listStudent students, int option) {  //0 good, 1 normal, remaining
 	//temp list student
 	listStudent goodStudents, normalStudents, remaining;

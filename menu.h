@@ -12,7 +12,6 @@ char menuShowTitle[][MAX] = {"STT", "MSSV", "Ten",
 "Lop", "Ngay sinh", "Diem TB"};
 
 void instruction() {
-	textcolor(7);
 	gotoXY(58, 20);
 	printf("Dung %c va %c de di chuyen", 24, 25);
 	gotoXY(102, 20);
@@ -210,7 +209,7 @@ void menu1(int selected, listStudent *students) {
 			printf("\t====================\n");
 			
 			printf("\t(?) Nhap nganh: ");
-			checkEmpty(b.major);
+			checkMajor(b.major);
 			printf("\t====================\n\n");
 			
 			printf("\t(!) Nhap dung dinh dang! VD: 1/1/2004\n\n");
@@ -259,7 +258,6 @@ void menu1(int selected, listStudent *students) {
 			printf("\t(?) Nhap diem mon 1: ");
 			checkInputScore(&b.scoreList.subject1);
 			printf("\t====================\n");
-			
 			
 			printf("\t(?) Nhap diem mon 2: ");
 			checkInputScore(&b.scoreList.subject2);
@@ -493,18 +491,26 @@ void menu2(int selected, listStudent *students) {
 			textcolor(7);
 			
 			float numberOfStudent = sizeNode(*students);
-			float sum;
-			int good = 0, normal = 0, bad = 0;
+			float sum[MAX] = {0};
+			int count[MAX] = {0};
+			int good[MAX] = {0}, normal[MAX] = {0}, bad[MAX] = {0};
 			float maxScore = 0;
 			for(nodeStudent *k = students->head; k != NULL; k = k->next) {
-				sum += k->data.gpa;
+				int i;
+				for(i = 0; i < 5; i++) {
+					if(!strcmp(k->data.major, majors[i])) 
+						break;
+				}
 				
+				sum[i] += k->data.gpa;
+				count[i]++;
+			
 				if(k->data.gpa >= 3.6) 
-					good++;
+					good[i]++;
 				else if(k->data.gpa >= 3.2)
-					normal++;
+					normal[i]++;
 				else 
-					bad++;
+					bad[i]++;
 				
 				if(k->data.gpa > maxScore) {
 					maxScore = k->data.gpa;
@@ -512,20 +518,30 @@ void menu2(int selected, listStudent *students) {
 			}
 			
 			printf("Thong ke:\n");
-			printf("\n\t===========================\n");
-			printf("\n\t(!) Diem trung binh ca lop: %.2f\n", sum / numberOfStudent);
-			printf("\n\t===========================\n");
-			printf("\n\t(!) Ti le sinh vien gioi: %.2f%%\n", (good / numberOfStudent) * 100);
-			printf("\n\t===========================\n");
-			printf("\n\t(!) Ti le sinh vien kha: %.2f%%\n", (normal / numberOfStudent) * 100);
-			printf("\n\t===========================\n");
-			printf("\n\t(!) Ti le sinh vien trung binh & yeu: %.2f%%\n", (bad / numberOfStudent) * 100);
+			for(int i = 0; i < 5; i++) {
+				if(count[i] != 0) {
+					float res1 = (float) good[i] / count[i];
+					float res2 = (float) normal[i] / count[i];
+					float res3 = (float) bad[i] / count[i];
+					
+					printf("\n\t===========================\n");
+					printf("\n\t(!) Diem trung binh nganh %s: %.2f\n", majors[i], sum[i] / count[i]);
+					printf("\n\t===========================\n");
+					printf("\n\t(!) Ti le sinh vien gioi nganh %s: %.2f%%\n", majors[i], res1 * 100);
+					printf("\n\t===========================\n");
+					printf("\n\t(!) Ti le sinh vien kha nganh %s: %.2f%%\n", majors[i], res2 * 100);
+					printf("\n\t===========================\n");
+					printf("\n\t(!) Ti le sinh vien trung binh & yeu nganh %s: %.2f%%\n", majors[i], res3 * 100);
+
+					printf("\n\n\n\n\n");	
+				}
+			}
 			
 			printf("\n\t===========================\n");
 			printf("\n\t(!) Sinh vien diem cao nhat la: ");
 			for(nodeStudent *h = students->head; h != NULL; h = h->next) {
 				if(h->data.gpa == maxScore) {
-					printf("%s - %.2f; ", h->data.name, h->data.gpa);
+					printf("%s | %.2f; ", h->data.name, h->data.gpa);
 				}
 			}
 			getch();
@@ -666,7 +682,7 @@ void menuStudent(int selected, listStudent *students) {
 			int selected = handleLogic(2, 70, 12, 10, confirmTitle);
 				if(selected == 0) main();
 			break;
-		}
+		}   
 		case 3: {
 			exit(0);
 		}
