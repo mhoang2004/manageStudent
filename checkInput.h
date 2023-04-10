@@ -24,6 +24,74 @@ void checkMajor(char string[]) {
 	}	
 }
 
+void checkEditMajor(char a[], char string[]) {
+	while(1) {
+		fgets(a, MAX, stdin);
+		
+		if(a[0] == '\n') break;
+		a[strlen(a)-1] = '\0';
+		int res;	
+		for(int i = 0; i < 5; i++) {
+			res = findMajor(string, majors[i]);
+			if(res) {
+				strcpy(string, majors[i]);
+				return;
+			} 	
+		}
+		printf("\t(!) Khong co nganh dao tao nay!\n");
+		printf("\t(?) Xin nhap lai: ");	
+	}
+}
+
+//Kiem tra MSSV co qua 10 chu so hay khong?
+void checkStudentCode(char studentCode[], listStudent students) {
+	int checkLength, flag;
+	do {
+		checkLength = 1, flag = 1;
+		checkEmpty(studentCode);
+		
+		if(strlen(studentCode) <= 10)
+			checkLength = 0;
+		if(checkLength) {
+			printf("\t(!) MSSV da nhap vuot qua chieu dai cho phep!\n");
+			printf("\t(?) Xin nhap lai: ");
+		} else {
+			for(nodeStudent *k = students.head; k != NULL; k = k->next) {
+				if(strcmp(studentCode, k->data.studentCode) == 0) flag = 0;	
+			}
+			if(flag) 
+				break;
+			else {
+				SetColor(4);
+				printf("\t(!) Da co MSSV nay!\n");
+				
+				SetColor(7);
+				printf("\t(?) Xin nhap lai: ");
+			}	
+		}
+	} while(checkLength || !flag);
+}
+
+//in MSSV, neu MSSV it hon 10 chu so tu dong them cac so 0 vao dau
+void checkPrintStudentCode(char studentCode[]) {	
+	int len = strlen(studentCode);
+	if(len == 10)
+		printf("%s", studentCode);
+	else {
+		int i, num_zeros = 10 - len;
+        char temp[11];
+
+        for (i = 0; i < num_zeros; i++) {
+            temp[i] = '0';
+        }
+        temp[i] = '\0';
+
+        strcat(temp, studentCode); 
+
+        strcpy(studentCode, temp);
+	}
+}
+
 int leapYear(int y) {
 	return ((y%4 == 0 && y%100 != 0) || y % 400 == 0);
 }
@@ -203,51 +271,34 @@ void checkName(char name[]) {
 }
 
 void checkEditStudentCode(listStudent students, char c[], char studentCode[]) {
-	int flag;
+	int checkLength, flag;
 	do {
-		flag = 1;
+		checkLength = 1, flag = 1;
 		fgets(c, MAX, stdin);
 		if(c[0] == '\n') break;
 		c[strlen(c)-1] = '\0';
 		
-		char temp[14];
-		strcpy(temp, c);
-		
-		for(nodeStudent *k = students.head; k != NULL; k = k->next) {
-			if(strcmp(c, k->data.studentCode) == 0) flag = 0;	
-		}
-		if(flag) {
-			strcpy(studentCode, c);
-			break;
+		if(strlen(studentCode) <= 10)
+			checkLength = 0;
+		if(checkLength) {
+			printf("\t(!) MSSV da nhap vuot qua chieu dai cho phep!\n");
+			
+			printf("\t(?) Xin nhap lai: ");
 		} else {
-			SetColor(4);
-			printf("\t(!) Da co MSSV nay!\n");
-			
-			SetColor(7);
-			printf("\t(?) Xin nhap lai: ");
-		}	
-	} while(!flag);
-}
-
-void checkStudentCode(listStudent students, char studentCode[]) {	
-	int flag;
-	do {
-		flag = 1;
-		checkEmpty(studentCode);
-		
-		for(nodeStudent *k = students.head; k != NULL; k = k->next) {
-			if(strcmp(studentCode, k->data.studentCode) == 0) flag = 0;	
+			for(nodeStudent *k = students.head; k != NULL; k = k->next) {
+				if(strcmp(studentCode, k->data.studentCode) == 0) flag = 0;	
+			}
+			if(flag) 
+				break;
+			else {
+				SetColor(4);
+				printf("\t(!) Da co MSSV nay!\n");
+				
+				SetColor(7);
+				printf("\t(?) Xin nhap lai: ");
+			}	
 		}
-		if(flag) 
-			break;
-		else {
-			SetColor(4);
-			printf("\t(!) Da co MSSV nay!\n");
-			
-			SetColor(7);
-			printf("\t(?) Xin nhap lai: ");
-		}	
-	} while(!flag);
+	} while(checkLength && !flag);
 }
 
 void checkInputInt(int *x) {

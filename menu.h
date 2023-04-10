@@ -205,7 +205,8 @@ void menu1(int selected, listStudent *students) {
 			
 			printf("\t====================\n");
 			printf("\t(?) Nhap MSSV: ");
-			checkStudentCode(*students, b.studentCode);
+			checkStudentCode(b.studentCode, *students);
+			checkPrintStudentCode(b.studentCode);
 			printf("\t====================\n");
 			
 			printf("\t(?) Nhap nganh: ");
@@ -380,11 +381,7 @@ void menu1(int selected, listStudent *students) {
 			printf("\t====================\n");
 			
 			printf("\t(?) Nhap lai nganh: ");
-			fgets(c, sizeof(c), stdin);
-			if(c[0] != '\n') {
-				c[strlen(c) - 1] = '\0';
-			    strcpy(temp->data.major, c);
-			}
+			checkEditMajor(c, temp->data.major);
 			
 			printf("\t====================\n\n");
 			printf("\t(!) Nhap dung dinh dang! VD: 1/1/2004\n\n");
