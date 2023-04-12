@@ -294,7 +294,7 @@ void checkEditStudentCode(listStudent students, char c[], char studentCode[]) {
 		c[strlen(c)-1] = '\0';
 		
 		
-		if(strlen(studentCode) <= 10)
+		if(strlen(c) <= 10)
 			checkLength = 0;
 		if(checkLength) {
 			SetColor(4);
