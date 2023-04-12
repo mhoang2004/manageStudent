@@ -7,6 +7,22 @@ enum months month;
 
 char majors[MAX][MAX] = { "CNTT", "KIENTRUC", "KTVT", "TDHDK", "LOGISTICS" };
 
+void checkNameInput(char name[]) 
+{
+	for(int i=0; i<strlen(name); i++)
+	{
+		if (i==0|| (i>0 && name[i-1]==32))
+		{
+			if(name[i]>=97 && name[i]<=122)
+				name[i]=name[i]-32;	
+		}else
+		{
+			if(name[i]>=65 && name[i]<=90)
+				name[i]=name[i]+32;	
+		}
+	}
+}
+
 void checkMajor(char string[]) {
 	while(1) {
 		scanf("%[^\n]s", string);
@@ -53,7 +69,9 @@ void checkStudentCode(char studentCode[], listStudent students) {
 		if(strlen(studentCode) <= 10)
 			checkLength = 0;
 		if(checkLength) {
+			SetColor(4);
 			printf("\t(!) MSSV da nhap vuot qua chieu dai cho phep!\n");
+			SetColor(7);
 			printf("\t(?) Xin nhap lai: ");
 		} else {
 			for(nodeStudent *k = students.head; k != NULL; k = k->next) {
@@ -63,8 +81,7 @@ void checkStudentCode(char studentCode[], listStudent students) {
 				break;
 			else {
 				SetColor(4);
-				printf("\t(!) Da co MSSV nay!\n");
-				
+				printf("\t(!) Da co MSSV nay!\n");	
 				SetColor(7);
 				printf("\t(?) Xin nhap lai: ");
 			}	
@@ -75,13 +92,11 @@ void checkStudentCode(char studentCode[], listStudent students) {
 //in MSSV, neu MSSV it hon 10 chu so tu dong them cac so 0 vao dau
 void checkPrintStudentCode(char studentCode[]) {	
 	int len = strlen(studentCode);
-	if(len == 10)
-		printf("%s", studentCode);
-	else {
-		int i, num_zeros = 10 - len;
+	if(len < 10) {
+		int i, numZeros = 10 - len;
         char temp[11];
 
-        for (i = 0; i < num_zeros; i++) {
+        for (i = 0; i < numZeros; i++) {
             temp[i] = '0';
         }
         temp[i] = '\0';
@@ -278,22 +293,26 @@ void checkEditStudentCode(listStudent students, char c[], char studentCode[]) {
 		if(c[0] == '\n') break;
 		c[strlen(c)-1] = '\0';
 		
+		
 		if(strlen(studentCode) <= 10)
 			checkLength = 0;
 		if(checkLength) {
+			SetColor(4);
 			printf("\t(!) MSSV da nhap vuot qua chieu dai cho phep!\n");
-			
+			SetColor(7);
 			printf("\t(?) Xin nhap lai: ");
 		} else {
+			checkPrintStudentCode(c);
 			for(nodeStudent *k = students.head; k != NULL; k = k->next) {
-				if(strcmp(studentCode, k->data.studentCode) == 0) flag = 0;	
+				if(strcmp(c, k->data.studentCode) == 0) flag = 0;		
 			}
-			if(flag) 
+			
+			if(flag) {
+				strcpy(studentCode, c);
 				break;
-			else {
+			} else {
 				SetColor(4);
 				printf("\t(!) Da co MSSV nay!\n");
-				
 				SetColor(7);
 				printf("\t(?) Xin nhap lai: ");
 			}	

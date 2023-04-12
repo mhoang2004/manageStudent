@@ -202,6 +202,7 @@ void menu1(int selected, listStudent *students) {
 			printf("\t====================\n");
 			printf("\t(?) Nhap ten: ");
 			checkEmpty(b.name);
+			checkNameInput(b.name);
 			
 			printf("\t====================\n");
 			printf("\t(?) Nhap MSSV: ");

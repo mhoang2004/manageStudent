@@ -10,7 +10,7 @@
 #include "login.h"
 
 int main() {
-	//textcolor(9);
+
 	int user = login(); //0 admin; 1 teacher; 2 students
 	
 	//===setting menu=======
