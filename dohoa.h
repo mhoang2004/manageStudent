@@ -1,4 +1,4 @@
-#pragma once // tránh xung dôt thu viên (tránh trùng)
+#pragma once // trï¿½nh xung dï¿½t thu viï¿½n (trï¿½nh trï¿½ng)
 
 #include <stdio.h>
 #include <conio.h>
@@ -9,14 +9,16 @@
 
 #define MAX 100
 
-void gotoXY(int x, int y) {
+void gotoXY(int x, int y)
+{
 	HANDLE hConsoleOutput;
-	COORD Cursor_an_Pos = { x, y };
+	COORD Cursor_an_Pos = {x, y};
 	hConsoleOutput = GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleCursorPosition(hConsoleOutput, Cursor_an_Pos);
 }
 
-void SetColor(WORD color) { //set mau chu
+void SetColor(WORD color)
+{ // set mau chu
 	HANDLE hConsoleOutput;
 	hConsoleOutput = GetStdHandle(STD_OUTPUT_HANDLE);
 
@@ -31,28 +33,34 @@ void SetColor(WORD color) { //set mau chu
 	SetConsoleTextAttribute(hConsoleOutput, wAttributes);
 }
 
-void ShowCur(bool CursorVisibility) {
+void ShowCur(bool CursorVisibility)
+{
 	HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
-	CONSOLE_CURSOR_INFO cursor = { 1, CursorVisibility };
+	CONSOLE_CURSOR_INFO cursor = {1, CursorVisibility};
 	SetConsoleCursorInfo(handle, &cursor);
 }
 
-int whereX() {
+int whereX()
+{
 	CONSOLE_SCREEN_BUFFER_INFO csbi;
 	if (GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi))
 		return csbi.dwCursorPosition.X;
 	return -1;
 }
 
-int whereY() {
+int whereY()
+{
 	CONSOLE_SCREEN_BUFFER_INFO csbi;
 	if (GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi))
 		return csbi.dwCursorPosition.Y;
 	return -1;
 }
 
-void textcolor(int x)  { //thay doi mau nen
+void textcolor(int x)
+{ // thay doi mau nen
 	HANDLE mau;
 	mau = GetStdHandle(STD_OUTPUT_HANDLE);
-    SetConsoleTextAttribute(mau, x);
+	SetConsoleTextAttribute(mau, x);
 }
+
+// hello
